@@ -1,0 +1,8 @@
+{
+    "name": "foodRecepieScrap@prod",
+    "version": "1.0.0",
+    "requireAuths": false,
+    "ScrapingWebsites": {
+        "primary": "https://www.foodfusion.com/"
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "credentials": {
+        "username": "login_username",
+        "password": "login_password",
+        "dbConString": "db_connection_string"
+    }
+}

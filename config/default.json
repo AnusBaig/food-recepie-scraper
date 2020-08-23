@@ -1,0 +1,6 @@
+{
+    "name": "Food Recepie Scraper",
+    "description": "Gets food in a category along with its recepie and further more details",
+    "version": "1.0.0",
+    "PORT": ""
+}
