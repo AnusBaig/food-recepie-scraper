@@ -9,7 +9,6 @@ const cheerio = require("cheerio");
 const website = config.get("ScrapingWebsites.primary");
 
 module.exports.getFoodCategories = async (req, res) => {
-    handleLog("Recepie Category");
     const {
         data
     } = await axios.get(website);
@@ -26,7 +25,13 @@ module.exports.getFoodCategories = async (req, res) => {
 };
 
 module.exports.getRecipeCategories = async (req, res) => {
-    let foodLink = `${website}recipe-category/${req.params['category']}/`;
+    const foods = await this.getRecipes(req.params['category']);
+
+    res.send(foods);
+}
+
+module.exports.getRecipes = async (category) => {
+    let foodLink = `${website}recipe-category/${category}/`;
     const foods = [];
 
     do {
@@ -68,7 +73,5 @@ module.exports.getRecipeCategories = async (req, res) => {
 
         foodLink = $('.next-page').attr('href');
     } while (foodLink);
-
-
-    res.send(foods);
+    return foods;
 }
