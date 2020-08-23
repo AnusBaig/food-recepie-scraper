@@ -1,0 +1,33 @@
+{
+  "name": "food-recepie-scraper",
+  "version": "1.0.0",
+  "description": "Gets food in a category along with its recepie and further more details",
+  "main": "app.js",
+  "scripts": {
+    "test": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnusBaig/food-recepie-scraper.git"
+  },
+  "keywords": [
+    "web-scraper",
+    "food-scraps",
+    "node",
+    "js"
+  ],
+  "author": "Anus Baig",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AnusBaig/food-recepie-scraper/issues"
+  },
+  "homepage": "https://github.com/AnusBaig/food-recepie-scraper#readme",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "cheerio": "^1.0.0-rc.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^4.1.0",
+    "lodash": "^4.17.20"
+  }
+}
