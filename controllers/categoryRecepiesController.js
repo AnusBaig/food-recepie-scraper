@@ -18,60 +18,81 @@ module.exports.getFoodCategories = async (req, res) => {
         item = $(item);
         foodCategories.push({
             title: item.text(),
-            link: item.attr("href")
+            link: item.attr("href"),
         });
     });
     res.send(foodCategories);
 };
 
 module.exports.getRecipeCategories = async (req, res) => {
-    const foods = await this.getRecipes(req.params['category']);
+
+    const foods = await this.getRecipes(req.params["category"], req.query['page']);
 
     res.send(foods);
-}
+};
 
-module.exports.getRecipes = async (category) => {
+module.exports.getRecipes = async (category, pageCount = 3) => {
     let foodLink = `${website}recipe-category/${category}/`;
-    const foods = [];
+    let foods = [],
+        page = 0,
+        $ = '';
 
     do {
-        const {
-            data
-        } = await axios.get(foodLink);
-        const $ = cheerio.load(data);
+        try {
+            console.log(`Fetching at: ${foodLink}`);
 
-        $('#load_more_recipes_archives .grid-img-link').each(async (index, item) => {
-            item = $(item);
+            const {
+                data
+            } = await axios.get(foodLink);
 
-            let $recipe = await axios.get(item.attr('href'));
-            $recipe = cheerio.load($recipe.data);
+            $ = cheerio.load(data);
 
-            const gallery = [];
-            $recipe('.owl-item a').each((i, galleryItem) => gallery.push($recipe(galleryItem).attr('href')));
+            page += 1;
+            $("#load_more_recipes_archives .grid-img-link").each(
+                async (index, item) => {
+                    item = $(item);
 
-            const method = {
-                english: [],
-                urdu: []
-            };
-            $recipe('.english-detail-ff p').each((i, methodWords) => method.english.push($recipe(methodWords).text()));
-            $recipe('.urdu-detail-ff p').each((i, methodWords) => method.urdu.push($recipe(methodWords).text()));
+                    let $recipe = await axios.get(item.attr("href"));
+                    $recipe = cheerio.load($recipe.data);
 
-            const video = $recipe('.recipe-video iframe').attr('src');
+                    const gallery = [];
+                    $recipe(".owl-item a").each((i, galleryItem) =>
+                        gallery.push($recipe(galleryItem).attr("href"))
+                    );
 
-            let foodItem = {
-                title: item.attr('title'),
-                recipeLink: item.attr('href'),
-                thumbnail: item.children('img').attr('srcset'),
-                recipe: {
-                    gallery,
-                    method,
-                    video
+                    const method = {
+                        english: [],
+                        urdu: [],
+                    };
+                    $recipe(".english-detail-ff p").each((i, methodWords) =>
+                        method.english.push($recipe(methodWords).text())
+                    );
+                    $recipe(".urdu-detail-ff p").each((i, methodWords) =>
+                        method.urdu.push($recipe(methodWords).text())
+                    );
+
+                    const video = $recipe(".recipe-video iframe").attr("src");
+
+                    let foodItem = {
+                        title: item.attr("title"),
+                        recipeLink: item.attr("href"),
+                        thumbnail: item.children("img").attr("srcset"),
+                        recipe: {
+                            gallery,
+                            method,
+                            video,
+                        },
+                    };
+                    foods.push(foodItem);
                 }
-            };
-            foods.push(foodItem);
-        });
+            );
+        } catch (e) {
+            console.log('Error in fetching');
+            break;
+        }
 
         foodLink = $('.next-page').attr('href');
-    } while (foodLink);
+    } while (foodLink && page <= pageCount);
+
     return foods;
-}
+};
