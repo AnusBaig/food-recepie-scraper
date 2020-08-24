@@ -4,6 +4,8 @@ const config = require('config');
 const cors = require('cors');
 const error = require('./middlewear/error');
 require('express-async-errors');
+require('./services/loggingService')(app);
+require('./middlewear/prod')(app);
 const {
     handleLog,
     handleSevereErrorResponse,

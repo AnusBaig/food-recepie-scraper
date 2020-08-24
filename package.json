@@ -22,9 +22,15 @@
     "url": "https://github.com/AnusBaig/food-recepie-scraper/issues"
   },
   "homepage": "https://github.com/AnusBaig/food-recepie-scraper#readme",
+  "engines": {
+    "npm": "6.14.7",
+    "node": "12.18.3"
+  },
   "dependencies": {
+    "@sentry/node": "^5.20.1",
     "axios": "^0.20.0",
     "cheerio": "^1.0.0-rc.3",
+    "compression": "^1.7.4",
     "config": "^3.3.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
