@@ -4,7 +4,8 @@
   "description": "Gets food in a category along with its recepie and further more details",
   "main": "app.js",
   "scripts": {
-    "test": "nodemon app.js"
+    "test": "nodemon app.js",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
