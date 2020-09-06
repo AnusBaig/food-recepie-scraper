@@ -22,19 +22,23 @@ module.exports.getALLRecipes = async (req, res) => {
 
     handleLog(`Total categories: ${categories.data.length}`);
     let currentFething = 0;
+    let starFetchItem = req.query['start'] || 1;
+    let totalFetchcategory = req.query['total'] || 6;
 
     for (let category of categories.data) {
+        currentFething += 1;
+        if(currentFething <starFetchItem) continue;
+
         let categoryLink = category.link.split("/");
         category = categoryLink[categoryLink.length - 2];
 
-        currentFething += 1;
         handleLog(`${currentFething}: Fetching food category '${category}'`);
 
         let foodItem = await getRecipes(category, req.query['page']);
 
         if (foodItem.length >= 1) foods.push(foodItem);
 
-        if (currentFething == 7) break;
+        if (currentFething == totalFetchcategory) break;
     }
 
     console.log(foods);
