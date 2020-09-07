@@ -42,5 +42,6 @@ module.exports.getALLRecipes = async (req, res) => {
     }
 
     console.log(foods);
+    
     res.send(foods);
 };
